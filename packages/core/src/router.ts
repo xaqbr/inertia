@@ -284,6 +284,7 @@ export class Router {
       onSuccess = () => {},
       onError = () => {},
       queryStringArrayFormat = 'brackets',
+      ignorePage = false,
     }: VisitOptions = {},
   ): void {
     let url = typeof href === 'string' ? hrefToUrl(href) : href
@@ -395,7 +396,7 @@ export class Router {
         if (!this.isInertiaResponse(response)) {
           return Promise.reject({ response })
         }
-
+        if (ignorePage) return;
         const pageResponse: Page = response.data
         if (isPartial && pageResponse.component === this.page.component) {
           pageResponse.props = { ...this.page.props, ...pageResponse.props }
